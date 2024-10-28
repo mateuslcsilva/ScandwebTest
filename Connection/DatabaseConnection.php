@@ -2,10 +2,17 @@
 
 namespace Project\Connection;
 
-define('DB_HOST','localhost');
-define('DB_USER','mateus');
-define('DB_PASSWORD','3003');
-define('DB_DATABASE','scandiweb_test');
+if($_SERVER['HTTP_HOST'] == 'localhost'){
+    define('DB_HOST','localhost');
+    define('DB_USER','mateus');
+    define('DB_PASSWORD','3003');
+    define('DB_DATABASE','scandiweb_test');
+} else {
+    define('DB_HOST','localhost');
+    define('DB_USER','scandiweb_test');
+    define('DB_PASSWORD','teste@123');
+    define('DB_DATABASE','scandiweb_test');
+}
 
 class DatabaseConnection
 {
@@ -23,7 +30,7 @@ class DatabaseConnection
         return $this->conn = $conn;
     }
 
-    public function insert(string $table, $data)
+    public function insert(string $table, $data): int
     {
         $columns = '';
         $values = '';
@@ -36,6 +43,42 @@ class DatabaseConnection
         $query = "INSERT INTO $table (" . rtrim($columns, ", ") . ") values (" . rtrim($values, ", ") . ");";
         try{
             mysqli_query($this->conn, $query);
+            return $this->conn->insert_id;
+        } catch (\Throwable $e){
+            return $e->getMessage();
+        }
+    }
+
+    public function update(string $table, $data)
+    {
+
+    }
+
+    public function select(string $sql)
+    {
+        $result = mysqli_query($this->conn, $sql);
+        $rows = [];
+        while($row=mysqli_fetch_assoc($result)){
+            array_push($rows, $row);
+        }
+        return $rows;
+    }
+
+    public function delete(string $table, string $column = null, string $value = null)
+    {        
+        try{
+            $where = $column != null && $value != null ? "where $column = '$value'" : '';
+            mysqli_query($this->conn, "delete from $table $where");
+        } catch (\Throwable $e){
+            return $e->getMessage();
+        }
+    }
+
+    public function query(string $query)
+    {
+        try{
+            $result = mysqli_query($this->conn, $query);
+            return $result;
         } catch (\Throwable $e){
             return $e->getMessage();
         }

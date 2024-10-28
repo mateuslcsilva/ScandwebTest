@@ -1,6 +1,7 @@
 <?php
 namespace Project\Controller;
 use Project\Connection\DatabaseConnection;
+use Project\Model\Book;
 
 class BookController
 {
@@ -20,6 +21,18 @@ class BookController
             'price' => $product->getPrice(),
             'weight' => $product->getWeight(),
         ];
-        $this->db->insert('products', $data);
+        $retorno = $this->db->insert('products', $data);
+        print_r($retorno);
+    }
+
+    public function getBooks($id = 0)
+    {
+        $retorno = $this->db->select("select * from products");
+        $books = [];
+        foreach ($retorno as $key => $value) {
+            $book = new Book($value['sku'], $value['name'], $value['price'], $value['weight']);
+            array_push($books, $book);
+        }
+        return $books;
     }
 }
