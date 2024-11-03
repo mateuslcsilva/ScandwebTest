@@ -1,5 +1,7 @@
 <?php
 namespace Project\Model;
+ 
+use Project\Connection\DatabaseConnection;
 
 class Product
 {
@@ -42,5 +44,27 @@ class Product
     public function setPrice(float $value)
     {
         $this->price = $value;
+    }
+
+    static function getAll()
+    {
+
+        $db = new DatabaseConnection;
+        
+        $retorno = $db->select("select * from products");
+        $products = [];
+        foreach ($retorno as $key => $value) {
+            array_push($products, $value);
+        }
+        return $products;
+    }
+
+    static function deleteAll()
+    {
+
+        $db = new DatabaseConnection;
+        
+        $retorno = $db->query("delete from products");
+        return $retorno;
     }
 }

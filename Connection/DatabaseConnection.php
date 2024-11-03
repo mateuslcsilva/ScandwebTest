@@ -30,7 +30,7 @@ class DatabaseConnection
         return $this->conn = $conn;
     }
 
-    public function insert(string $table, $data): int
+    public function insert(string $table, $data)
     {
         $columns = '';
         $values = '';
@@ -43,25 +43,45 @@ class DatabaseConnection
         $query = "INSERT INTO $table (" . rtrim($columns, ", ") . ") values (" . rtrim($values, ", ") . ");";
         try{
             mysqli_query($this->conn, $query);
-            return $this->conn->insert_id;
+            return mysqli_error($this->conn) != '' ? mysqli_error($this->conn) : true;
         } catch (\Throwable $e){
             return $e->getMessage();
         }
     }
 
-    public function update(string $table, $data)
+    public function update(string $table, $sku, $data)
     {
+        $changes = '';
 
+        foreach ($data as $key => $value) {
+            $changes .= "$key = '$value', ";
+        }
+        $changes = rtrim($changes, ", ");
+
+        $sql = "update $table set $changes where sku = $sku";
+        try{
+            mysqli_query($this->conn, $sql);
+            return isset($this->conn->insert_id);
+        } catch (\Throwable $e){
+            return $e->getMessage();
+        }
     }
 
     public function select(string $sql)
     {
-        $result = mysqli_query($this->conn, $sql);
+        $query = mysqli_query($this->conn, $sql);
         $rows = [];
-        while($row=mysqli_fetch_assoc($result)){
+        while($row=mysqli_fetch_assoc($query)){
             array_push($rows, $row);
         }
         return $rows;
+    }
+
+    public function selectCount(string $table, int $sku)
+    {
+        $sql = "select * from $table where sku = $sku";
+        $query = mysqli_query($this->conn, $sql);
+        return $query != null ? mysqli_num_rows($query) : 0;
     }
 
     public function delete(string $table, string $column = null, string $value = null)
