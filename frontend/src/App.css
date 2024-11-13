@@ -1,0 +1,19 @@
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.products-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  min-height: max-content;
+  width: 70%;
+  margin: 0 auto;
+  gap: 15px;
+}
+
+.product{
+  height: 200px;
+  padding: 20px;
+}
