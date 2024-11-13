@@ -7,6 +7,6 @@ require_once "./routes/main.php";
 use Project\Core\Core;
 use Project\Http\Route;
 use Project\Cors\Cors;
-/* aaaa */
+
 Cors::register();
 Core::dispatch(Route::routes());
