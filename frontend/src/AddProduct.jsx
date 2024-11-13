@@ -16,7 +16,7 @@ function AddProduct() {
 	return (
 		<main>
 			<header>
-				<h1>Add Product</h1>
+				<h1>Add Productaaaaaaaa</h1>
 				<div className="actions">
 					<button>Save</button>
 				</div>
