@@ -67,4 +67,13 @@ class Product
         $retorno = $db->query("delete from products");
         return $retorno;
     }
+
+    static function massDelete($skus)
+    {
+
+        $db = new DatabaseConnection;
+        
+        $retorno = $db->query("delete from products where sku in (" . implode(',', $skus) . ")");
+        return $db->getError() != '' ? $db->getError() : true;
+    }
 }

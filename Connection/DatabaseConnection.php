@@ -103,6 +103,11 @@ class DatabaseConnection
             return $e->getMessage();
         }
     }
+
+    public function getError()
+    {
+        return mysqli_error($this->conn);
+    }
 }
 
 ?>

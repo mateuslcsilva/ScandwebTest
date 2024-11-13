@@ -58,4 +58,24 @@ class ProductController
             'message'    => 'Products deleted successfully'
         ], 201);
     }
+
+    public function massDelete(Request $request, Response $response)
+    {
+        $body = $request::body();
+
+        $result = Product::massDelete($body['skus']);
+        if($result == true){
+            $response::json([
+                'error'   => false,
+                'success' => true,
+                'message'    => 'Products deleted successfully'
+            ], 201);
+            exit;
+        }
+        $response::json([
+            'error'   => true,
+            'success' => false,
+            'message'    => $result
+        ], 500);
+    }
 }
