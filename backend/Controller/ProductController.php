@@ -2,12 +2,14 @@
 
 namespace Project\Controller;
 
+use Project\Connection\DatabaseConnection;
 use Project\Controller\BookController;
 use Project\Controller\DvdController;
 use Project\Controller\FurnitureController;
 use Project\Http\Request;
 use Project\Http\Response;
 use Project\Model\Product;
+ini_set("display_errors", 1);
 
 class ProductController
 {
@@ -21,7 +23,16 @@ class ProductController
             'B' => new BookController,
         };
 
-        $result = $controller->store($body);
+        try{
+            $result = $controller->store($body);
+        } catch (\Throwable $e){
+            $response::json([
+                'error'   => true,
+                'success' => false,
+                'message'    => $e->getMessage()
+            ], 500);
+            exit;
+        }
         
         if($result == false){
             $response::json([

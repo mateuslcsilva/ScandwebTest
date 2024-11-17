@@ -8,7 +8,7 @@ class Furniture extends Product
     private string $dimensions;
     private DatabaseConnection $db;
 
-    public function __construct(int $sku, string $name, float $price, string $dimensions)
+    public function __construct(string $sku, string $name, float $price, string $dimensions)
 	{
         parent::__construct($sku, $name, $price);
 		$this->dimensions = $dimensions;
@@ -37,8 +37,6 @@ class Furniture extends Product
         ];
         $skuExists = $this->db->selectCount('products', $data['sku']);
         if($skuExists > 0){
-            /* $insert = $this->db->update('products', $data['sku'], $data);
-            return $insert; */
             return false;
         }
         $insert = $this->db->insert('products', $data);

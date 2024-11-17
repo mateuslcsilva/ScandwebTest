@@ -5,10 +5,10 @@ use Project\Connection\DatabaseConnection;
 
 class Book extends Product
 {
-    private float $weight;
+    private string $weight;
     private DatabaseConnection $db;
 
-    public function __construct(int $sku, string $name, float $price, float $weight)
+    public function __construct(string $sku, string $name, float $price, string $weight)
 	{
         parent::__construct($sku, $name, $price);
 		$this->weight = $weight;
@@ -22,7 +22,7 @@ class Book extends Product
         return $this->weight;
     }
 
-    public function setWeight(float $value)
+    public function setWeight(string $value)
     {
         $this->weight = $value;
     }
@@ -37,8 +37,6 @@ class Book extends Product
         ];
         $skuExists = $this->db->selectCount('products', $data['sku']);
         if($skuExists > 0){
-            /* $insert = $this->db->update('products', $data['sku'], $data);
-            return $insert; */
             return false;
         }
         $insert = $this->db->insert('products', $data);

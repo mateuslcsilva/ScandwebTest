@@ -2,6 +2,8 @@
 
 namespace Project\Connection;
 
+use Project\Http\Request;
+
 if($_SERVER['HTTP_HOST'] == 'localhost'){
     define('DB_HOST','localhost');
     define('DB_USER','mateus');
@@ -58,7 +60,7 @@ class DatabaseConnection
         }
         $changes = rtrim($changes, ", ");
 
-        $sql = "update $table set $changes where sku = $sku";
+        $sql = "update $table set $changes where sku = '$sku'";
         try{
             mysqli_query($this->conn, $sql);
             return isset($this->conn->insert_id);
@@ -77,9 +79,9 @@ class DatabaseConnection
         return $rows;
     }
 
-    public function selectCount(string $table, int $sku)
+    public function selectCount(string $table, string $sku)
     {
-        $sql = "select * from $table where sku = $sku";
+        $sql = "select * from $table where sku = '$sku'";
         $query = mysqli_query($this->conn, $sql);
         return $query != null ? mysqli_num_rows($query) : 0;
     }
@@ -107,6 +109,16 @@ class DatabaseConnection
     public function getError()
     {
         return mysqli_error($this->conn);
+    }
+
+    public function geraLog($request){
+        $query = "INSERT INTO logs (request) values ('$request')";
+        try{
+            mysqli_query($this->conn, $query);
+            return mysqli_error($this->conn) != '' ? mysqli_error($this->conn) : true;
+        } catch (\Throwable $e){
+            return $e->getMessage();
+        }
     }
 }
 

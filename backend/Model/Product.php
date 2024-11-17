@@ -5,11 +5,11 @@ use Project\Connection\DatabaseConnection;
 
 class Product
 {
-    private int $sku;
+    private string $sku;
     private string $name;
     private float $price;
     
-    public function __construct(int $sku, string $name, float $price)
+    public function __construct(string $sku, string $name, float $price)
 	{
 		$this->sku = $sku;
 		$this->name = $name;
@@ -21,7 +21,7 @@ class Product
         return $this->sku;
     }
 
-    public function setSku(int $value)
+    public function setSku(string $value)
     {
         $this->sku = $value;
     }
@@ -72,6 +72,10 @@ class Product
     {
 
         $db = new DatabaseConnection;
+
+        foreach ($skus as $key => $value) {
+            $skus[$key] = "'$value'";
+        }
         
         $retorno = $db->query("delete from products where sku in (" . implode(',', $skus) . ")");
         return $db->getError() != '' ? $db->getError() : true;
