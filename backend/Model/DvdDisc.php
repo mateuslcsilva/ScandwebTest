@@ -37,8 +37,9 @@ class DvdDisc extends Product
         ];
         $skuExists = $this->db->selectCount('products', $data['sku']);
         if($skuExists > 0){
-            $insert = $this->db->update('products', $data['sku'], $data);
-            return $insert;
+            /* $insert = $this->db->update('products', $data['sku'], $data);
+            return $insert; */
+            return false;
         }
         $insert = $this->db->insert('products', $data);
         return $insert;

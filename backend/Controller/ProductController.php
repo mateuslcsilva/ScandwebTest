@@ -23,12 +23,22 @@ class ProductController
 
         $result = $controller->store($body);
         
+        if($result == false){
+            $response::json([
+                'error'   => true,
+                'success' => false,
+                'message'    => "SKU already exists in database"
+            ], 500);
+            exit;
+        }
+
         if($result != true){
             $response::json([
                 'error'   => true,
                 'success' => false,
                 'message'    => $result
             ], 500);
+            exit;
         }
         
         $response::json([
