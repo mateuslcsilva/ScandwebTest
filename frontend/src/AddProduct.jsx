@@ -83,32 +83,36 @@ function AddProduct() {
 		const data = {
 			sku: state.sku,
 			name: state.name,
-			price: state.price,
+			price : !state.price ? 0 : (state.price.replace(/[^0-9.]/g, "") || 0),
 			type: state.type
 		}
 
 		if(state.type == 'B'){
-			data.weight = state.weight
+			data.weight = !state.weight ? 0 : state.weight.replace(/[^0-9.]/g, "")
 		}
-
+		
 		if(state.type == 'D'){
 			data.size = state.size
 		}
 
+		console.log(data);
+
 		if(state.type == 'F'){
 			for (const key in state.dimensions) {
 				if(state.dimensions[key] == ''){
-					return alert("Please, submit required data")
+					return console.log("Please, submit required data")
 				}
 			}
 			data.dimensions = `${state.dimensions.height}X${state.dimensions.width}X${state.dimensions.length}`
 		}
 
 		for (const key in data) {
-			if(data[key] == ''){
-				return alert("Please, submit required data")
+			if(data[key] == '' && data[key] != 0){
+				return console.log("Please, submit required data")
 			}
 		}
+
+		console.log(data)
 
 		const requestOptions = {
 			method: 'POST',
@@ -117,16 +121,14 @@ function AddProduct() {
 		}
 		await fetch('https://teste.lcsilva.cloud/scandiweb_test/product/save', requestOptions)
 		.then(res => {
-			console.log(res)
-			return res.json()
+			console.log(res);
+			return res.json();
 		})
 		.then(res => {
-			console.log(res);
 			if(res.error == true){
-				return alert(res.message)
+				return console.log(res.message)
 			}
 			navigate("..", { relative: 'path' });
-			return;
 		})
 	}
 	return (
@@ -221,6 +223,7 @@ function AddProduct() {
 				</section> */}
 				<div class="select">
 					<select class="standard-select" onChange={(e) => setType(e.target.value)} name="type" id="productType">
+						<option value="">Select Type</option>
 						<option value="D" id="DVD">DVD</option>
 						<option value="B" id="Book">Book</option>
 						<option value="F" id="Furniture">Furniture</option>
