@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from "react-router-dom";
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -48,13 +49,21 @@ function App() {
 		})
 	}
 
+	const getLabel = (product) => {
+		if(product?.size) return "Size"
+		if(product?.weight) return "Weight"
+		if(product?.dimensions) return "Dimensions"
+	}
+
 	return (
 		<main>
 			<header>
 				<h1>Product List</h1>
 				<div className="actions">
-					<a href="/add-product">Add</a>
-					<button onClick={massDelete}>Mass Delete</button>
+					<button className='button'>
+						<Link to={'/add-product'} relative='path'>ADD</Link>
+					</button>
+					<button id="delete-product-btn" className='button button-danger' onClick={massDelete}>Mass Delete</button>
 				</div>
 			</header>
 			<hr />
@@ -63,10 +72,10 @@ function App() {
 					return (
 						<div className="product" key={'product' + product.sku}>
 							<input onChange={() => selectProducts(product.sku)} className="delete-checkbox" type="checkbox" id="deleteCheckbox" />
-							<p>{product.name}</p>
-							<p>{product.sku}</p>
-							<p>{product.dimensions}</p>
-							<p>{product.price}</p>
+							<span>{product.sku}</span>
+							<span>{product.name}</span>
+							<span>{getLabel(product)}: {product?.dimensions || product?.weight || product?.size}</span>
+							<span>$ {product.price}</span>
 						</div>
 					)
 				})}

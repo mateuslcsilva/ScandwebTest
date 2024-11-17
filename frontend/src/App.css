@@ -1,3 +1,13 @@
+*{
+  font-family: "Montserrat", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+a, button{
+  all: unset;
+}
+
 header{
   display: flex;
   justify-content: space-between;
@@ -14,6 +24,274 @@ header{
 }
 
 .product{
+  position: relative;
   height: 200px;
   padding: 20px;
+  outline: 1px solid #252525;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: 0.2s ease;
 }
+
+.product:hover{
+  outline: 1px solid #3e8ed0;
+  transition: 0.2s ease;
+}
+
+.product > .delete-checkbox{
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.product span{
+  font-weight: 500;
+  font-size: 13pt;
+  text-align: center;
+}
+
+.input-container{
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.actions{
+  display: flex;
+  gap: 15px;
+}
+
+.button{
+  padding: 8px 15px;
+  border-radius: 7px;
+  outline: 1px solid #252525;
+  cursor: pointer;
+}
+
+.button-danger{
+  outline: 1px solid#d63c3c;
+  background-color: #d63c3c;
+  color: #f2f2f2;
+}
+
+.button-cancel{
+  outline: 1px solid#d63c3c;
+  color: #d63c3c;
+}
+
+.button-cancel:hover{
+  outline: 1px solid#d63c3c;
+  background-color: #d63c3c;
+  color: #f2f2f2;
+}
+
+.button-success:hover{
+  outline: 1px solid#1dbe40;
+  background-color: #1dbe40;
+  color: #f2f2f2;
+}
+
+/* INPUT STYLES */
+
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.ordinary-input-div{
+  display: inline-flex;
+  flex-direction: column;
+  max-width: 105px;
+  margin-right: 25px;
+  position: relative;
+}
+
+.ordinary-input-div:has(.input-large){
+  max-width: 250px;
+}
+
+.ordinary-input-input{
+  background-color: #FFF;
+  border: none;
+  outline: 1px solid #4e4e4eaa;
+  color: #252525;
+  height: 40px;
+  border-radius: 3px;
+  padding: 0 5px;
+  font-size: 12pt;
+  transition: 0.2s ease-out !important;
+  text-align: right;
+}
+
+.ordinary-input-input:disabled{
+  outline: 1px solid #c2c2c299;
+  color: #c2c2c299;
+}
+
+.ordinary-input-input:disabled ~ .ordinary-input-label{
+  color: #c2c2c299 !important;
+}
+
+.ordinary-input-input.input-large{
+  width: 500px;
+  text-align: left;
+}
+
+.ordinary-input-input.input-text{
+  text-align: left;
+}
+
+.ordinary-input-label{
+  max-width: fit-content;
+  padding: 0 7px;
+  background-color: #FFF;
+  color: #3e8ed0;
+  cursor: text;
+  transition: 0.2s ease-out;
+  font-size: 14pt;
+  font-weight: 400;
+  width: 9vw;
+}
+
+.ordinary-input-input:focus, .ordinary-input-input:valid{
+  outline: 2px solid #3e8ed0;
+}
+
+.ordinary-input-input:empty ~ .ordinary-input-label{
+  transform: translate(0%, -115%);
+  color: #4e4e4eaa;
+}
+
+.ordinary-input-input:focus ~ .ordinary-input-label,
+.ordinary-input-input:valid ~ .ordinary-input-label{
+  transform: translate(-2%, -230%) scale(0.8);
+  color: #3e8ed0 !important;
+}
+
+.ordinary-input-input.invalid-input:focus, .ordinary-input-input.invalid-input:valid{
+  outline: 2px solid rgb(255, 68, 68);
+}
+
+.ordinary-input-input.invalid-input:focus ~ .ordinary-input-label,
+.ordinary-input-input.invalid-input:valid ~ .ordinary-input-label{
+  transform: translate(-2%, -200%) scale(0.8);
+  color: rgb(255, 68, 68)!important;
+}
+
+#invalid-email-alert,
+#invalid-password-alert{
+  position: absolute;
+  right: 0;
+  bottom: 7px;
+  white-space: nowrap;
+  color: rgb(255, 68, 68) !important;
+  font-size: 9pt;
+}
+
+/* END INPUT STYLES */
+
+/* SELECT STYLES */
+
+section{
+  position: relative;
+  z-index: 999;
+  overflow: visible;
+  width: 219px;
+}
+
+.typesInput{
+  cursor: pointer;
+  outline: 1px solid #4e4e4eaa;
+  background-color: #FFF !important;
+  width: 200px;
+  height: 40px;
+  border-radius: 3px;
+  padding: 7px;
+  font-size: 14pt !important;
+  margin-right: 25px;
+  overflow: hidden;
+  color: #4e4e4eaa;
+}
+
+.typesInput p{
+  overflow: hidden;
+  text-overflow: ellipsis !important;
+  white-space: nowrap; 
+}
+
+.typesInput::placeholder{
+  color: #4e4e4eaa;
+}
+
+.typesInput.active-input{
+  outline: 2px solid #3e8ed0 !important;
+  color: #252525 !important;
+}
+
+#typeList{
+  width: calc(100% - 25px);
+  background-color: #FFF !important;
+  border: none;
+  overflow: hidden;
+  height: fit-content;
+  border-radius: 3px;
+  transition: .3s ease;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 115%;
+}
+
+#typeList::-webkit-scrollbar{
+  display: none;
+}
+
+#typeList input[type=button]{
+  margin-bottom: 5px;
+  padding: 0 5px;
+  border-radius: 3px;
+  text-align: start;
+  outline: none;
+  border: none;
+  background-color: #FFF;
+  font-family: inherit;
+  font-size: 14pt;
+  font-weight: 500;
+  width: auto;
+  height: auto;
+  transition: 0.3s ease;
+  height: 0;
+}
+
+#typeList.active{
+  outline: 2px solid #3e8ed0;
+  padding: 10px;
+  overflow-y: scroll;
+  transition: .3s ease;
+  margin-bottom: 15px;
+}
+
+#typeList.active .user-type-button{
+  height: 24px;
+}
+
+#typeList.active .user-type-button:hover{
+  background-color: #3e8ed0;
+  color: #FFF !important;
+  cursor: pointer;
+}
+
+@keyframes positionAlternate {
+  from{
+      position: relative;
+  }
+  to{
+      position: absolute;
+  }
+}
+
+/* END SELECT STYLES */
