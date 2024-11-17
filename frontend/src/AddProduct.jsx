@@ -1,4 +1,4 @@
-import { useState, useReducer } from 'react'
+import { useState, useReducer, useEffect } from 'react'
 import { Link, useNavigate  } from "react-router-dom";
 import './App.css'
 
@@ -53,6 +53,10 @@ function AddProduct() {
 	const [state, dispatch] = useReducer(formReducer, initialFormState);
 	const [typeListActive, setTypeListActive] = useState(false)
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		console.log(state)
+	}, [state])
 
 	const handleTextChange = (e) => {
 		dispatch({
@@ -178,7 +182,7 @@ function AddProduct() {
 					<label htmlFor="price" className="ordinary-input-label">Price</label>
 				</div>
 
-				<section>
+{/* 				<section>
 					<div
 						className={`typesInput ${typeListActive ? "active-input" : ""}`}
 						placeholder="Select Product Type"
@@ -214,7 +218,15 @@ function AddProduct() {
 							onClick={() => setType('B')}
 						/>
 					</div>
-				</section>
+				</section> */}
+				<div class="select">
+					<select class="standard-select" onChange={(e) => setType(e.target.value)} name="type" id="productType">
+						<option value="D" id="DVD">DVD</option>
+						<option value="B" id="Book">Book</option>
+						<option value="F" id="Furniture">Furniture</option>
+					</select>
+					<span class="focus"></span>
+				</div>
 				{state.type == 'D' &&
 					<div className='input-container' style={{ marginTop: '30px' }}>
 						<div className="ordinary-input-div">
